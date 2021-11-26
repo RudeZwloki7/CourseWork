@@ -4,57 +4,57 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Role} from '../../enum/Role';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
-    isInvalid: boolean;
-    isLogout: boolean;
-    submitted = false;
-    model: any = {
-        username: '',
-        password: '',
-        remembered: false
-    };
+  isInvalid: boolean;
+  isLogout: boolean;
+  submitted = false;
+  model: any = {
+    username: '',
+    password: '',
+    remembered: false
+  };
 
-    returnUrl = '/';
+  returnUrl = '/stock';
 
-    constructor(private userService: UserService,
-                private router: Router,
-                private route: ActivatedRoute) {
-    }
+  constructor(private userService: UserService,
+              private router: Router,
+              private route: ActivatedRoute) {
+  }
 
-    ngOnInit() {
-        const params = this.route.snapshot.queryParamMap;
-        this.isLogout = params.has('logout');
-        this.returnUrl = params.get('returnUrl');
-    }
+  ngOnInit() {
+    const params = this.route.snapshot.queryParamMap;
+    this.isLogout = params.has('logout');
+    this.returnUrl = params.get('returnUrl');
+  }
 
-    onSubmit() {
-        this.submitted = true;
-        this.userService.login(this.model).subscribe(
-            user => {
-                if (user) {
-                    if (user.role !== Role.Customer) {
+  onSubmit() {
+    this.submitted = true;
+    this.userService.login(this.model).subscribe(
+      user => {
+        if (user) {
+          // if (user.role !== Role.Customer) {
 
-                        this.returnUrl = '/';
-                    }
+          this.returnUrl = '/stock';
+          // }
 
-                    this.router.navigateByUrl(this.returnUrl);
-                } else {
-                    this.isLogout = false;
-                    this.isInvalid = true;
-                }
+          this.router.navigateByUrl(this.returnUrl);
+        } else {
+          this.isLogout = false;
+          this.isInvalid = true;
+        }
 
-            }
-        );
-    }
+      }
+    );
+  }
 
-    fillLoginFields(u, p) {
-        this.model.username = u;
-        this.model.password = p;
-        this.onSubmit();
-    }
+  fillLoginFields(u, p) {
+    this.model.username = u;
+    this.model.password = p;
+    this.onSubmit();
+  }
 }
