@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg">
+  <img src="/assets/logo1.png" width="100" height="100" class="d-inline-block align-top mx-3 rounded-3" alt="">
+  <a class="navbar-brand" [routerLink]="root">
+    StockIT
+  </a>
+
+  <button class="navbar-dark bg-dark navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+
+    <div class="navbar-nav" *ngIf="!currentUser || currentUser.role == Role.Customer">
+
+      <a class="nav-item nav-link"
+         routerLink="/category/0">
+        About
+      </a>
+      <a class="nav-item nav-link"
+         routerLink="/category/1">
+        Useful info
+      </a>
+<!--      <a class="nav-item nav-link "-->
+<!--         routerLink="/category/2">-->
+<!--        Shoes-->
+<!--      </a>-->
+
+    </div>
+
+    <div class="navbar-nav ml-auto">
+       <ng-container *ngIf="currentUser; else noUser" class="float-end">
+        <a class="nav-item nav-link " routerLink="/profile">
+          {{name}}
+        </a>
+        <a class="nav-item nav-link " (click)="logout()" routerLink="/login" [queryParams]="{logout: true}">
+          Sign Out
+        </a>
+      </ng-container>
+      <ng-template #noUser class="position-absolute float-end">
+
+        <a class="nav-item nav-link " routerLink="/login">
+          Sign In
+        </a>
+        <a class="nav-item nav-link " routerLink="/register">
+          Sign Up
+        </a>
+
+      </ng-template>
+    </div>
+  </div>
+</nav>
